@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Source') {
             steps {
-                git 'https://github.com/edisongomezs/unir-test.git'
+                git 'https://github.com/edisongomez/unir-test.git'
             }
         }
         stage('Build') {
@@ -22,14 +22,16 @@ pipeline {
         }
         stage('API tests') {
             steps {
-                sh 'mkdir -p results/api'
+                sh 'sudo mkdir -p results/api'
+                sh 'sudo chown -R $USER:$USER results'
                 sh 'make test-api'
                 archiveArtifacts artifacts: 'results/api_result.xml', allowEmptyArchive: true
             }
         }
         stage('E2E tests') {
             steps {
-                sh 'mkdir -p results/e2e'
+                sh 'sudo mkdir -p results/e2e'
+                sh 'sudo chown -R $USER:$USER results'
                 sh 'make test-e2e'
                 archiveArtifacts artifacts: 'results/cypress_result.xml', allowEmptyArchive: true
             }
