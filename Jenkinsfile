@@ -22,7 +22,9 @@ pipeline {
         }
         stage('API tests') {
             steps {
-                sh 'mkdir -p results/api'
+                // Asegurarse de tener permisos para crear el directorio
+                sh 'sudo mkdir -p results/api'
+                sh 'sudo chown -R $(whoami) results'
                 sh 'make test-api'
                 archiveArtifacts artifacts: 'results/api/*.xml', allowEmptyArchive: true
             }
@@ -39,11 +41,12 @@ pipeline {
             junit 'results/*.xml'
             cleanWs()
         }
-        //failure {
-            // Comentado temporalmente para evitar errores de conexión SMTP
+        failure {
+            // Agregar una acción en caso de fallo
+            echo "Pipeline failed. Please check the logs for details."
             // mail to: 'edisonjaviergomezs@gmail.com',
             //      subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' failed",
             //      body: "Please go to ${env.BUILD_URL} and verify the build"
-        //}
+        }
     }
 }
