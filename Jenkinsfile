@@ -31,6 +31,8 @@ pipeline {
         // Nueva etapa para pruebas de API
         stage('API tests') {
             steps {
+                // Crear el directorio para los resultados de las pruebas de API
+                sh 'mkdir -p results/api'
                 // Ejecuta las pruebas de API definidas en el Makefile
                 sh 'make test-api'
                 // Archiva los archivos de resultados de las pruebas de API
@@ -58,9 +60,10 @@ pipeline {
         // Etapa a ejecutar solo en caso de fallo del pipeline
         failure {
             // Envía un correo en caso de fallo, incluyendo el nombre del trabajo y el número de ejecución
-            mail to: 'edisonjaviergomezs@gmail.com',
-                 subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' failed",
-                 body: "Please go to ${env.BUILD_URL} and verify the build"
+            // Comentado temporalmente para evitar errores de conexión SMTP
+            // mail to: 'edisonjaviergomezs@gmail.com',
+            //      subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' failed",
+            //      body: "Please go to ${env.BUILD_URL} and verify the build"
         }
     }
 }
