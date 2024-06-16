@@ -59,8 +59,7 @@ pipeline {
         }
         // Etapa a ejecutar solo en caso de fallo del pipeline
         failure {
-            // Envía un correo en caso de fallo, incluyendo el nombre del trabajo y el número de ejecución
-            // Comentado temporalmente para evitar errores de conexión SMTP
+            // Comentar o eliminar el envío de correo temporalmente para evitar errores de conexión SMTP
             // mail to: 'edisonjaviergomezs@gmail.com',
             //      subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' failed",
             //      body: "Please go to ${env.BUILD_URL} and verify the build"
