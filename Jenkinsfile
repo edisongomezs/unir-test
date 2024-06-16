@@ -39,11 +39,11 @@ pipeline {
             junit 'results/*.xml'
             cleanWs()
         }
-        failure {
+        //failure {
             // Comentado temporalmente para evitar errores de conexión SMTP
             // mail to: 'edisonjaviergomezs@gmail.com',
             //      subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' failed",
             //      body: "Please go to ${env.BUILD_URL} and verify the build"
-        }
+        //}
     }
 }
