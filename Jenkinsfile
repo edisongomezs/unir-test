@@ -5,7 +5,16 @@ pipeline {
     stages {
         stage('Source') {
             steps {
-                git 'https://github.com/edisongomez/unir-test.git'
+                script {
+                    def scmVars = checkout scm: [
+                        $class: 'GitSCM',
+                        branches: [[name: '*/master']],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/edisongomezs/unir-test.git',
+                            credentialsId: 'your-credentials-id'
+                        ]]
+                    ]
+                }
             }
         }
         stage('Build') {
@@ -44,9 +53,6 @@ pipeline {
         }
         failure {
             echo "Pipeline failed. Please check the logs for details."
-            // mail to: 'edisonjaviergomezs@gmail.com',
-            //      subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' failed",
-            //      body: "Please go to ${env.BUILD_URL} and verify the build"
         }
     }
 }
